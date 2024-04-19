@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  
+  <link rel="shortcut icon" href="static/logo-mini-CurlToPython.png">
+  <link rel="icon" href="static/logo-mini-CurlToPython.png" type="image/x-icon">
+  
+  <title>Convert curl commands to code</title>
+  
+  <meta name="author" content="Prathmesh Soni"/>
+  <meta name="description" content="Converting cURL Commands to Python Code With Response."/>
+  <meta property="og:title" content="Prathmesh Soni"/>
+  <meta property="og:site_name" content="Prathmesh Soni cURL To Python Website"/>
+  <meta property="og:url" content="curlconverter.prathmeshsoni.works"/>
+  <meta property="og:description" content="Converting cURL Commands to Python Code With Response.">
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="/static/assets/img/pretty-snap-25-09-2023.png"/>  
+
+  <link href="static/main.css" rel="stylesheet">
+  
+  <style data-jss="" data-meta="MuiDialog">
+    @media print {
+      .MuiDialog-root {
+        position: absolute !important;
+      }
+    }
+
+    .MuiDialog-scrollPaper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .MuiDialog-scrollBody {
+      overflow-x: hidden;
+      overflow-y: auto;
+      text-align: center;
+    }
+
+    .MuiDialog-scrollBody:after {
+      width: 0;
+      height: 100%;
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .MuiDialog-container {
+      height: 100%;
+      outline: 0;
+    }
+
+    @media print {
+      .MuiDialog-container {
+        height: auto;
+      }
+    }
+
+    .MuiDialog-paper {
+      margin: 32px;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    @media print {
+      .MuiDialog-paper {
+        box-shadow: none;
+        overflow-y: visible;
+      }
+    }
+
+    .MuiDialog-paperScrollPaper {
+      display: flex;
+      max-height: calc(100% - 64px);
+      flex-direction: column;
+    }
+
+    .MuiDialog-paperScrollBody {
+      display: inline-block;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .MuiDialog-paperWidthFalse {
+      max-width: calc(100% - 64px);
+    }
+
+    .MuiDialog-paperWidthXs {
+      max-width: 444px;
+    }
+
+    @media (max-width:507.95px) {
+      .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 64px);
+      }
+    }
+
+    .MuiDialog-paperWidthSm {
+      max-width: 600px;
+    }
+
+    @media (max-width:663.95px) {
+      .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 64px);
+      }
+    }
+
+    .MuiDialog-paperWidthMd {
+      max-width: 960px;
+    }
+
+    @media (max-width:1023.95px) {
+      .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 64px);
+      }
+    }
+
+    .MuiDialog-paperWidthLg {
+      max-width: 1280px;
+    }
+
+    @media (max-width:1343.95px) {
+      .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 64px);
+      }
+    }
+
+    .MuiDialog-paperWidthXl {
+      max-width: 1920px;
+    }
+
+    @media (max-width:1983.95px) {
+      .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+        max-width: calc(100% - 64px);
+      }
+    }
+
+    .MuiDialog-paperFullWidth {
+      width: calc(100% - 64px);
+    }
+
+    .MuiDialog-paperFullScreen {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      max-width: 100%;
+      max-height: none;
+      border-radius: 0;
+    }
+
+    .MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+      margin: 0;
+      max-width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container-md py-2">
+    <div class="row">
+      <div class="col-8 col-sm-10 col-md-11">
+        <h3 class="text-muted d-none d-md-block">Convert curl commands to Python.</h3>
+        <h3 class="text-muted d-block d-md-none">Convert curl to Python</h3>
+      </div>
+    </div>
+  </div>
+  <div class="container-xl pb-4">
+    <div class="row">
+      <div class="col-12 col-sm-4 order-1">
+        <h2 class="mb-sm-0">curl command</h2>
+      </div>
+      <div class="mb-0 col-12 order-2 order-md-3 pb-md-3">
+        <textarea id="curl-code" class="form-control" placeholder="curl example.com" rows="6" spellcheck="false"
+          autocorrect="off" autocapitalize="none"></textarea>
+      </div>
+    </div>
+    <div class="">
+      <div class="float-end order-3 order-md-2 mb-3 mt-0 ms-3 text-end">
+        <button type="button" class="btn btn-primary" onclick="convert(1)">Convert And Request</button>
+      </div>
+      <div class="order-3 order-md-2 mb-3 mt-0 text-end">
+        <button type="button" class="btn btn-primary" onclick="convert(0)">Convert</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <pre><code id="generated-code" class="language-python hljs" data-highlighted="yes"><span class="hljs-keyword">import</span> requests
+<span id="generated-codedd" style="display: none;">
+</span><span id="generated-codes">
+response = requests.get(<span class="hljs-string">'http://example.com'</span>)
+</span></code></pre>
+      </div>
+    </div>
+    <div style="display: none;">
+      <input type="hidden" id="generated-curl" value="">
+      <input type="hidden" id="set-url" value="">
+    </div>
+    <div class="pt-4 pb-4">
+      <div id="view-response" class="text-start float-start" style="display: none;"><a href="javascript:void(0)" onclick="ViewResponse()">View Response</a></div>
+      <div id="copy-to-clipboard" class="text-end float-end" style="display: inline-block;"><a href="javascript:void(0)" onclick="CopyToClipboard()">Copy to clipboard</a></div>
+    </div>
+    <div class="row">
+      <div id="warnings-container" class="col pt-3" style="display: none;">
+        <pre><code id="warnings" style="display: block;"></code></pre>
+      </div>
+    </div>
+
+  </div>
+  <div class="container-md pb-4">
+    <div class="row border-top py-4">
+      <div class="col-lg-4" id="chrome">
+        <h3>curl from Google Chrome</h3>
+        <ol>
+          <li>Open the <a href="https://developer.chrome.com/docs/devtools/network/">Network</a> tab in the <a
+              href="https://developer.chrome.com/docs/devtools/overview/">DevTools</a></li>
+          <li>Right click (or Ctrl-click) a request</li>
+          <li>Click "Copy" → <span class="not-windows">"Copy as cURL"</span><span class="windows d-none">"Copy as cURL
+              (<b>bash</b>)"</span></li>
+          <li>Paste it in the <b>curl command</b> box above</li>
+        </ol>
+        <p class="d-none d-lg-block pt-3">
+          <b>Warning</b>: the copied command may contain cookies or other sensitive data. Be careful if you're sharing
+          the command with other people, sending someone your cookie for a website is like sending them your password.
+        </p>
+      </div>
+      <div class="col-lg-4 d-none" id="safari">
+        <h3>curl from Safari</h3>
+        <ol>
+          <li>Open the <a href="https://support.apple.com/en-us/guide/safari-developer/dev1f3525e58/mac">Network</a> tab
+            in the <a href="https://support.apple.com/en-us/guide/safari-developer/dev073038698/mac">Developer Tools</a>
+          </li>
+          <li>Right click (or Ctrl-click or two-finger click) a request</li>
+          <li>Click "Copy as cURL" in the dropdown menu</li>
+          <li>Paste it in the <b>curl command</b> box above</li>
+        </ol>
+        <p class="d-none d-lg-block pt-3">
+          <b>Warning</b>: the copied command may contain cookies or other sensitive data. Be careful if you're sharing
+          the command with other people, sending someone your cookie for a website is like sending them your password.
+        </p>
+      </div>
+      <div class="col-lg-4 d-none" id="firefox">
+        <h3>curl from Firefox</h3>
+        <ol>
+          <li>Open the <a href="https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor">Network Monitor</a> tab
+            in the <a href="https://developer.mozilla.org/en-US/docs/Tools">Developer Tools</a></li>
+          <li>Right click (or Ctrl-click) a request</li>
+          <li>Click "Copy" → "Copy as cURL"</li>
+          <li>Paste it in the <b>curl command</b> box above</li>
+        </ol>
+        <p class="d-none d-xl-block pt-3">
+          <b>Warning</b>: the copied command may contain cookies or other sensitive data. Be careful if you're sharing
+          the command with other people, sending someone your cookie for a website is like sending them your password.
+        </p>
+      </div>
+      <div class="col-lg-8">
+        <picture id="screenshot">
+          <img class="img-fluid mx-auto d-block" src="static/chrome.png"
+            srcset="/images/chrome@2x.png 2x" width="648" height="354"
+            alt="screenshot of browser DevTools showing how to copy a network request as curl">
+        </picture>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- <script src="./static/main.js"></script> -->
+
+
+  <div id="9223B585-507F-6026-6AA7-B9DF64EAE51C"></div>
+  <div id="volume-booster-visusalizer">
+    <div class="sound">
+      <div class="sound-icon"></div>
+      <div class="sound-wave sound-wave_one"></div>
+      <div class="sound-wave sound-wave_two"></div>
+      <div class="sound-wave sound-wave_three"></div>
+    </div>
+    <div class="segments-box">
+      <div data-range="1-20" class="segment"><span></span></div>
+      <div data-range="21-40" class="segment"><span></span></div>
+      <div data-range="41-60" class="segment"><span></span></div>
+      <div data-range="61-80" class="segment"><span></span></div>
+      <div data-range="81-100" class="segment"><span></span></div>
+    </div>
+  </div>
+
+  <script>
+
+//    give me function that sroll down 20px
+    function scrollDown() {
+      window.scrollBy(0, 350);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var typingTimer;
+      var curlCodeInput = document.getElementById('curl-code');
+
+//      curlCodeInput.addEventListener('keyup', function () {
+//          clearTimeout(typingTimer);
+//          typingTimer = setTimeout(function () {
+//              convert(0);
+//          }, 500);
+//      });
+    });
+
+    function ViewResponse() {
+      var url = document.getElementById('set-url').value;
+      window.open(url, '_blank');
+    }
+
+    function convert(checks){
+      var value = document.getElementById('curl-code').value;
+      if (value.trim() === '') {
+        return;
+      }
+      let vals = '';
+      if (checks == 0){
+        vals = '';
+      }
+      else if (checks == 1){
+        vals = 'yes';
+      }
+      var url = '/';
+      var generated_curl = document.getElementById('generated-curl');
+      var texts = 'import requests\n'
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({
+          curl_code: value,
+          check: vals,
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('generated-codedd').innerHTML = data.code;
+        document.getElementById('generated-codedd').style.display = 'block';
+        document.getElementById('generated-codes').style.display = 'none';
+        generated_curl.value = '';
+        generated_curl.value = texts + data.code;
+
+        if (data.url) {
+          document.getElementById('view-response').style.display = 'block';
+          document.getElementById('set-url').value = data.url;
+        }
+        else {
+          document.getElementById('view-response').style.display = 'none';
+          document.getElementById('set-url').value = '';
+        }
+        scrollDown();
+
+      })
+
+    }
+
+    function CopyToClipboard() {
+      var copyText = document.getElementById("generated-curl");
+      var textToCopy = copyText.value.replace(/\\n/g, '\n'); // Replace '\\n' with actual newline character
+      navigator.clipboard.writeText(textToCopy);
+      alert("Copy Successfully");
+    }
+
+
+  </script>
+
+</body>
+
+</html>
