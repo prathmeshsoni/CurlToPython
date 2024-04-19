@@ -1,0 +1,3 @@
+Flask==3.0.3
+Requests==2.31.0
+uncurl==0.0.11
