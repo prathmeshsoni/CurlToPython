@@ -22,6 +22,8 @@
   <meta property="og:image" content="/static/assets/img/pretty-snap-25-09-2023.png"/>  
 
   <link href="static/main.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
   
   <style data-jss="" data-meta="MuiDialog">
     @media print {
@@ -204,6 +206,7 @@ response = requests.get(<span class="hljs-string">'http://example.com'</span>)
     </div>
     <div class="pt-4 pb-4">
       <div id="view-response" class="text-start float-start" style="display: none;"><a href="javascript:void(0)" onclick="ViewResponse()">View Response</a></div>
+      <div id="download-response" class="text-start float-start ms-3" style="display: none;"><a href="#" download="" id="download">Download Response</a></div>
       <div id="copy-to-clipboard" class="text-end float-end" style="display: inline-block;"><a href="javascript:void(0)" onclick="CopyToClipboard()">Copy to clipboard</a></div>
     </div>
     <div class="row">
@@ -213,6 +216,24 @@ response = requests.get(<span class="hljs-string">'http://example.com'</span>)
     </div>
 
   </div>
+
+  <div class="container-xl pb-4">
+    <div class="row">
+      <div class="col-12 col-sm-4 order-1">
+        <h2 class="mb-sm-0">Html Viewer</h2>
+      </div>
+      <div class="mb-0 col-12 order-2 order-md-3 pb-md-3">
+        <textarea id="html-code" class="form-control" placeholder="<h1>Hello World!!</h1>" rows="6" spellcheck="false"
+          autocorrect="off" autocapitalize="none"></textarea>
+      </div>
+    </div>
+    <div class="">
+      <div class="order-3 order-md-2 mb-3 mt-0 text-end">
+        <button type="button" class="btn btn-primary" onclick="View()">View Output<i class="fas fa-code ms-2"></i></button>
+      </div>
+    </div>
+  </div>
+
   <div class="container-md pb-4">
     <div class="row border-top py-4">
       <div class="col-lg-4" id="chrome">
@@ -294,7 +315,7 @@ response = requests.get(<span class="hljs-string">'http://example.com'</span>)
 
 //    give me function that sroll down 20px
     function scrollDown() {
-      window.scrollBy(0, 350);
+      window.scrollBy(0, 200);
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -312,6 +333,28 @@ response = requests.get(<span class="hljs-string">'http://example.com'</span>)
     function ViewResponse() {
       var url = document.getElementById('set-url').value;
       window.open(url, '_blank');
+    }
+
+    function View() {
+      var value = document.getElementById('html-code').value;
+      if (value.trim() == '') {
+        value = '<h1>Hello World!!</h1>';
+      }
+      var url = '/html-viewer/';
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({
+          html_code: value,
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.open(data.link, '_blank');
+      })
     }
 
     function convert(checks){
@@ -351,10 +394,14 @@ response = requests.get(<span class="hljs-string">'http://example.com'</span>)
         if (data.url) {
           document.getElementById('view-response').style.display = 'block';
           document.getElementById('set-url').value = data.url;
+          document.getElementById('download-response').style.display = 'block';
+          document.getElementById('download').setAttribute('download', data.url);
         }
         else {
           document.getElementById('view-response').style.display = 'none';
           document.getElementById('set-url').value = '';
+          document.getElementById('download-response').style.display = 'none';
+          document.getElementById('download').setAttribute('download', '');
         }
         scrollDown();
 
