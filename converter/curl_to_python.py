@@ -80,6 +80,9 @@ class CurlToPython:
         f_name = f'{self.get_url()}'.replace('https://', '').replace('http://', '').replace('/', '_')
         if f_name.endswith('_'):
             f_name = f_name[:-1]
+
+        if not os.path.exists(f'{final_path}/response'):
+            os.makedirs(f'{final_path}/response')
         
         file_name = f'response-{f_name}.html'
         with open(f'{final_path}/response/{file_name}', 'w', encoding='utf-8') as f:
